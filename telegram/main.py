@@ -7,13 +7,14 @@ API_KEY = '7275427469:AAFJ4sBkEZ-d0yPeQg1ZMghIVhhEWzdHX4U'
 EXCHANGE_RATE_API_URL = 'https://api.exchangerate-api.com/v4/latest/'
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text('Olá! Eu sou um bot que converte Real para Dólar e vice-versa. Use /convert <valor> <moeda>.')
+    await update.message.reply_text('Olá! Eu sou um bot que converte Real para Dólar e vice-versa. Use /convert <valor> <moeda de origem> <moeda de destino>')
 
 async def convert(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     try:
         amount = float(context.args[0])
-        currency = context.args[1].upper()
-        if currency not in ['USD', 'BRL']:
+        currency_src = context.args[1].upper()
+        currency_dst = context.args[2].upper()
+        if currency_src or currency_dst not in ['USD', 'BRL']:
             raise ValueError('Moeda não suportada.')
 
         response = requests.get(EXCHANGE_RATE_API_URL + 'BRL')
